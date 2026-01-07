@@ -611,7 +611,10 @@ Math.seedMT = init_genrand;
         var title = load('Runfield.avif', '');
         var instructions = load('instructions.avif', '');
 
-
+        var interacted = false;
+        window.addEventListener('click', function() {
+          interacted = true;
+        });
 
         var musicOn = localStorage.musicOn != "false";
         var makeAudios = function(){
@@ -636,7 +639,7 @@ Math.seedMT = init_genrand;
             if (sfx.currentTime != 0)
               sfx.currentTime = 0;
             sfx.volume = sfxVolume;
-            sfx.play();
+            if (interacted) sfx.play();
           }
           return sfx;
         };
@@ -663,7 +666,7 @@ Math.seedMT = init_genrand;
 
 
         startGame = function() {
-          music.play();
+          if (interacted) music.play();
           var randomFactors = function() {
             var a = [];
             for (var i=1; i<5; i++) {
@@ -1177,7 +1180,7 @@ Math.seedMT = init_genrand;
               if (music.volume < 0.01) music.volume = 0;
               if (!musicOn && music.volume == 0) music.pause();
             }
-            if (musicOn && (music.paused || music.currentTime == music.duration || music.currentTime == 0))
+            if (musicOn && interacted && (music.paused || music.currentTime == music.duration || music.currentTime == 0))
               music.play();
             if (window.requestAnimationFrame) {
               window.requestAnimationFrame(draw);
@@ -1245,7 +1248,7 @@ Math.seedMT = init_genrand;
 
   <body>
     <img id="leaves_left" width="156" height="582" src="leaves_left.avif" alt="">
-    <canvas id="c" width="1024" height="512" role="img">
+    <canvas id="c" width="1024" height="512" role="main">
       You're using a browser that doesn't support the canvas element.
       Here's <a href="//getfirefox.com">one that does</a>.
     </canvas>
