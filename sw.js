@@ -1,9 +1,7 @@
-const CACHE_NAME = 'runfield-v7';
+const CACHE_NAME = 'runfield-v8';
 const urlsToCache = [
   // Desktop version
   './index.html',
-  './mt.js',
-  './audio.js',
   './Runfield.png',
   './instructions.png',
   './bg.jpg',
