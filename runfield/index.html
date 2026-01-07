@@ -4,6 +4,7 @@
   <head>
     <title>Runfield</title>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+    <meta name="viewport" content="user-scalable=no,width=1280">
     <style>
       html {
         font-family: Ubuntu, sans-serif;
@@ -17,6 +18,11 @@
       body {
         margin-top: 40px;
         white-space: nowrap;
+        min-width: 1224px;
+      }
+      #musicToggle {
+        margin-top: 8px;
+        cursor: pointer;
       }
       canvas {
         -moz-box-shadow: 0px 0px 12px rgba(0,0,0,0.75);
@@ -62,6 +68,31 @@
         width: 120px;
         margin-top: 506px;
         z-index: 10;
+      }
+      @media (max-height: 600px) {
+        body {
+          margin-top: 0;
+        }
+        #musicToggle {
+          margin-top: 40px;
+        }
+      }
+      @media (orientation: portrait) {
+        body {
+          margin-top: 0;
+          /* based on 390x844px */
+          transform: scale(2.3) rotate(90deg) translate(-2.5vw, -44.5vw);
+          transform-origin: 0% 0%;
+          overflow-y: hidden;
+        }
+        #musicToggle {
+          margin-top: 40px;
+        }
+      }
+      @media (orientation: portrait) and (height: 2277px) {
+        body {
+          transform: scale(1.9) rotate(90deg) translate(-2.5vw, -49vw);
+        }
       }
     </style>
     <script>
@@ -131,6 +162,45 @@
       }
     </script>
     <script type="text/javascript">
+      function lockOrientation() {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape')
+            .then(() => console.log('Orientation locked to landscape'))
+            .catch((err) => console.error('Orientation lock failed:', err));
+        }
+      }
+      try {
+        lockOrientation();
+      } catch(e) { console.warn(e) }
+      function resizeBody() {
+        if (window.innerHeight > window.innerWidth) {
+          // Tweak body transform to center the game and fit it to screen
+          var gameWidth = 1280;
+          var gameHeight = 591;
+          var relH = window.innerWidth / (window.innerHeight / gameWidth);
+          var adjustX = 0;
+          if (gameHeight > relH) {
+            relH = gameHeight;
+            scale = window.innerWidth / gameHeight;
+            adjustX = ((window.innerHeight / scale) - gameWidth)/2;
+          } else {
+            scale = window.innerHeight / gameWidth;
+          }
+          var adjust = -(relH - gameHeight) / 2;
+          document.body.style.margin = '0';
+          document.body.style.transform = 'scale(' + scale + ') rotate(90deg) translate('+ (adjustX) +'px, ' + (-gameHeight + adjust) + 'px)' ;
+          document.body.style.transformOrigin = '0 0';
+        } else if (window.innerWidth < 1240) {
+          document.body.style.margin = '';
+          document.body.style.transform = 'scale(' + (window.innerWidth / 1240) + ')';
+          document.body.style.transformOrigin = '0 0';
+        } else {
+          document.body.style.margin = '';
+          document.body.style.transform = '';
+          document.body.style.transformOrigin = '';
+        }
+      }
+      window.addEventListener('resize', resizeBody);
       getImageFirstY = function(img) {
         if (img.firstY == null) {
           try {
@@ -576,7 +646,10 @@
             ev.preventDefault();
           };
           c.onmousedown = startJump;
+          c.ontouchstart = startJump;
           window.onmouseup = endJump;
+          window.ontouchend = endJump;
+          window.ontouchcancel = endJump;
           window.onkeydown = function(ev) {
             if (ev.target.tagName != 'INPUT' && ev.which == 32) {
               startJump(ev);
@@ -941,7 +1014,7 @@
     </canvas>
     <iframe id="tweeter"></iframe>
     <img id="leaves_right" src="leaves_right.png">
-    <div id="musicToggle" style="cursor:pointer; margin-top:8px;">The Music is On</div>
+    <div id="musicToggle">The Music is On</div>
     <div><a href="#" onclick="var s=document.getElementById('editor').style;s.display=s.display!='block'?'block':'none';return false;">Toggle Editor</a></div>
     <div id="editor"><canvas id="editorCanvas" width="1024" height="64"></canvas><br>
       <form onsubmit="location.replace('#level='+this.level.value.replace(/ /g,''));resetLevel(false);return false">
@@ -954,8 +1027,8 @@
       <a href="?theme=template">Template</a> (<a href="template/instructions.html">make your own theme</a>)
     </div>
     <div id="credits">
-      Code & Graphics: <a href="http://fhtr.org">Ilmari Heikkinen</a> (a.k.a. <a href="http://fat-cat.co.uk/fatcat/release.php?id=161">Drowsy</a>)
-      Music: <a href="http://myspace.com/karhumauri">Mauri Heikkinen</a> (a.k.a. <a href="http://fat-cat.co.uk/fatcat/release.php?id=161">Drowsy</a>)
+      Code & Graphics: <a href="https://fhtr.org">Ilmari Heikkinen</a>
+      Music: <a href="https://open.spotify.com/artist/2hBSz5rIDGj871DTlZR7nv">Mauri Heikkinen</a> (a.k.a. <a href="http://fat-cat.co.uk/fatcat/release.php?id=161">Drowsy</a>)
     </div>
-    <script src="../../shared/mozilla-badge.js" defer></script>
+    <script>resizeBody();</script>
 </html>
