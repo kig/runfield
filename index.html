@@ -1016,15 +1016,9 @@ Math.seedMT = init_genrand;
                 ctx.fillRect(0,0,1024,512);
                 ctx.globalAlpha = 1;
               }
-              // force draw completion
-              try {
-                ctx.getImageData(0,0,1,1);
-              } catch(e) {
-                // security exception, let's ignore it
-              }
               t = new Date().getTime();
               drawTime = t-st;
-              elapsed = t - lastFrameTime;
+              elapsed = Math.min(16, t - lastFrameTime);
               offset += elapsed*speed;
               speed = speed + (0.2-speed)*0.02;
             } else {
