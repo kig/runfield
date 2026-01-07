@@ -196,6 +196,11 @@
           document.body.style.margin = '0';
           document.body.style.transform = 'scale(' + scale + ') rotate(90deg) translate('+ (adjustX) +'px, ' + (-gameHeight + adjust) + 'px)' ;
           document.body.style.transformOrigin = '0 0';
+          var el = document.getElementById('musicToggle');
+          while (el) {
+            el.style.display = 'none';
+            el = el.nextElementSibling;
+          }
         } else if (window.innerHeight < 700) {
           document.body.style.margin = '0';
           document.body.style.marginTop = (window.innerHeight - gameHeight) / 2 + 'px';
