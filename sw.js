@@ -27,15 +27,15 @@ const urlsToCache = [
   './snow/horizon.avif',
   './snow/path.avif',
   './snow/foreground.avif',
-  // Audio files (ogg)
-  './delaa.ogg',
-  './hyppy.ogg',
-  './hyppy2.ogg',
-  './hyppy3.ogg',
-  './lasku2.ogg',
-  './musa.ogg',
-  './snoicboom.ogg',
-  './turbo3_2.ogg',
+  // Audio files (mp3)
+  './delaa.ogg.mp3',
+  './hyppy.ogg.mp3',
+  './hyppy2.ogg.mp3',
+  './hyppy3.ogg.mp3',
+  './lasku2.ogg.mp3',
+  './musa.ogg.mp3',
+  './snoicboom.ogg.mp3',
+  './turbo3_2.ogg.mp3',
 ];
 
 // Install event - cache resources

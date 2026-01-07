@@ -297,14 +297,12 @@ Math.seedMT = init_genrand;
     <script type="text/javascript">
       createAudio = function(e) {
         var audio = document.createElement('audio');
-        var source = document.createElement('source');
-        source.src = e+'.ogg';
-        source.type = 'audio/ogg; codecs="vorbis"';
-        audio.appendChild(source);
-        var source = document.createElement('source');
-        source.src = e+'.ogg.mp3';
-        source.type = 'audio/mpeg; codecs="mp3"';
-        audio.appendChild(source);
+        fetch(e+'.ogg.mp3').then(res => res.blob()).then(blob => {
+          var source = document.createElement('source');
+          source.src = URL.createObjectURL(blob);
+          source.type = 'audio/mpeg; codecs="mp3"';
+          audio.appendChild(source);
+        });
         return audio;
       }
     </script>
@@ -334,7 +332,7 @@ Math.seedMT = init_genrand;
           return a.map(function(p){ return p.map(encodeURIComponent).join("=") }).join("&")
         }
       }
-      URL = {
+      _URL = {
         build : function(base, params, fragment) {
           return base + (params != null ? '?'+Query.build(params) : '') +
                         (fragment != null ? '#'+Query.build(fragment) : '')
@@ -353,12 +351,12 @@ Math.seedMT = init_genrand;
             protocol: protocol,
             query: Query.parse(gp[1]),
             fragment: gf[1],
-            build: URL.__build__
+            build: _URL.__build__
           };
         },
 
         __build__ : function() {
-          return URL.build(this.base, this.query, this.fragment)
+          return _URL.build(this.base, this.query, this.fragment)
         }
 
       }
@@ -598,7 +596,7 @@ Math.seedMT = init_genrand;
           }
         }, false);
 
-        var query = URL.parse(document.location.toString()).query;
+        var query = _URL.parse(document.location.toString()).query;
         loadPrefix = query.theme ? query.theme+'/' : 'field/';
 
         var fox_right = load('run_frames.avif');
