@@ -113,28 +113,41 @@ self.addEventListener('fetch', (event) => {
 
         return fetch(fetchRequest).then((response) => {
           // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
+          if (!response || response.status !== 200) {
             return response;
           }
 
-          // Clone the response
-          const responseToCache = response.clone();
+          // Only cache successful responses (but allow opaque responses for CORS)
+          if (response.type === 'basic' || response.type === 'cors') {
+            // Clone the response
+            const responseToCache = response.clone();
 
-          // Cache the new resource
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
+            // Cache the new resource
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+          }
 
           return response;
         }).catch(() => {
-          // Return a custom offline page or message if needed
-          return new Response('Offline - resource not available', {
+          // Provide context-specific offline fallbacks
+          if (event.request.destination === 'document') {
+            // For HTML requests, try to return cached index page
+            return caches.match('/runfield/index.html').then(cachedResponse => {
+              return cachedResponse || new Response('Offline - Please visit while online first', {
+                status: 503,
+                statusText: 'Service Unavailable',
+                headers: new Headers({
+                  'Content-Type': 'text/plain'
+                })
+              });
+            });
+          }
+          // For other resources, just indicate offline
+          return new Response('', {
             status: 503,
-            statusText: 'Service Unavailable',
-            headers: new Headers({
-              'Content-Type': 'text/plain'
-            })
+            statusText: 'Service Unavailable'
           });
         });
       })
