@@ -91,23 +91,6 @@
           margin-top: 40px;
         }
       }
-      @media (orientation: portrait) {
-        body {
-          margin-top: 0;
-          /* based on 390x844px */
-          transform: scale(2.3) rotate(90deg) translate(-2.5vw, -44.5vw);
-          transform-origin: 0% 0%;
-          overflow-y: hidden;
-        }
-        #musicToggle {
-          margin-top: 40px;
-        }
-      }
-      @media (orientation: portrait) and (height: 2277px) {
-        body {
-          transform: scale(1.9) rotate(90deg) translate(-2.5vw, -49vw);
-        }
-      }
     </style>
     <script>
         // IE9 doesn't support new Audio
@@ -176,16 +159,6 @@
       }
     </script>
     <script type="text/javascript">
-      function lockOrientation() {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('landscape')
-            .then(() => console.log('Orientation locked to landscape'))
-            .catch((err) => console.error('Orientation lock failed:', err));
-        }
-      }
-      try {
-        lockOrientation();
-      } catch(e) { console.warn(e) }
       function resizeBody() {
         var gameWidth = 1280;
         var gameHeight = 591;
