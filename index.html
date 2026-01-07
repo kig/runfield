@@ -179,10 +179,10 @@
         lockOrientation();
       } catch(e) { console.warn(e) }
       function resizeBody() {
+        var gameWidth = 1280;
+        var gameHeight = 591;
         if (window.innerHeight > window.innerWidth) {
           // Tweak body transform to center the game and fit it to screen
-          var gameWidth = 1280;
-          var gameHeight = 591;
           var relH = window.innerWidth / (window.innerHeight / gameWidth);
           var adjustX = 0;
           if (gameHeight > relH) {
@@ -196,6 +196,14 @@
           document.body.style.margin = '0';
           document.body.style.transform = 'scale(' + scale + ') rotate(90deg) translate('+ (adjustX) +'px, ' + (-gameHeight + adjust) + 'px)' ;
           document.body.style.transformOrigin = '0 0';
+        } else if (window.innerHeight < 700) {
+          document.body.style.margin = '0';
+          document.body.style.marginTop = (window.innerHeight - gameHeight) / 2 + 'px';
+          var el = document.getElementById('musicToggle');
+          while (el) {
+            el.style.display = 'none';
+            el = el.nextElementSibling;
+          }
         } else if (window.innerWidth < 1240) {
           document.body.style.margin = '';
           document.body.style.transform = 'scale(' + (window.innerWidth / 1240) + ')';
