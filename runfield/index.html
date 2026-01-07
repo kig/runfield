@@ -4,6 +4,7 @@
   <head>
     <title>Runfield</title>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
       html {
         font-family: Ubuntu, sans-serif;
@@ -576,7 +577,9 @@
             ev.preventDefault();
           };
           c.onmousedown = startJump;
+          c.ontouchstart = startJump;
           window.onmouseup = endJump;
+          window.ontouchend = endJump;
           window.onkeydown = function(ev) {
             if (ev.target.tagName != 'INPUT' && ev.which == 32) {
               startJump(ev);
