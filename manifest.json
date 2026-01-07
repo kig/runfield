@@ -49,7 +49,7 @@
      "src": "./screenshots/mobile_1.jpg",
       "sizes": "661x887",
       "type": "image/jpeg",
-      "form_factor": "portrait",
+      "form_factor": "narrow",
       "label": "Gameplay"
     }
   ]

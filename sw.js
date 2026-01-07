@@ -1,4 +1,4 @@
-const CACHE_NAME = 'runfield-v14';
+const CACHE_NAME = 'runfield-v15';
 const urlsToCache = [
   // Desktop version
   './index.html',
