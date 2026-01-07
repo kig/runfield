@@ -1,0 +1,24 @@
+{
+  "name": "Runfield Mobile",
+  "short_name": "Runfield",
+  "description": "Run, run as fast as you can! An HTML5 running game optimized for mobile.",
+  "start_url": "/runfield-mobile/index.html",
+  "display": "standalone",
+  "background_color": "#241a14",
+  "theme_color": "#241a14",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "../runfield/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../runfield/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
