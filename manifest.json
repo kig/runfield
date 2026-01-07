@@ -2,21 +2,30 @@
   "name": "Runfield",
   "short_name": "Runfield",
   "description": "Run, run as fast as you can! An HTML5 running game.",
+  "lang": "en",
+  "dir": "ltr",
+
+  "id": "./",
   "start_url": "./index.html",
+  "scope": "./",
+
   "display": "fullscreen",
   "background_color": "#241a14",
   "theme_color": "#241a14",
+
+  "categories": ["games", "entertainment"],
+
   "icons": [
     {
-      "src": "./icons/icon-192.png",
+      "src": "./icons/icon-192.avif",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/avif",
       "purpose": "any maskable"
     },
     {
-      "src": "./icons/icon-512.png",
+      "src": "./icons/icon-512.avif",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/avif",
       "purpose": "any maskable"
     }
   ]

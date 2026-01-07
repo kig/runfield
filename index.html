@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Runfield</title>
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#241a14">
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.avif">
+    <link rel="apple-touch-icon" href="icons/icon-192.avif">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
@@ -38,6 +36,10 @@
         margin-top: 8px;
         cursor: pointer;
       }
+      #editorToggle {
+        margin-top: 8px;
+        cursor: pointer;
+      }
       canvas {
         -moz-box-shadow: 0px 0px 12px rgba(0,0,0,0.75);
         -webkit-box-shadow: 0px 0px 12px rgba(0,0,0,0.75);
@@ -51,6 +53,9 @@
       #editor {
         margin-top: 20px;
         display: none;
+      }
+      #editor.show {
+        display: block;
       }
       #credits {
         margin-top: 40px;
@@ -103,7 +108,7 @@
             }
         }
     </script>
-    <script type="text/javascript" src="mt.js">
+    <script type="text/javascript">
     (function() {
 /*
    A C-program for MT19937, with initialization improved 2002/1/26.
@@ -553,7 +558,13 @@ Math.seedMT = init_genrand;
         ctx.font = '30px Ubuntu';
         ctx.fillText("Loading...", 16, 44);
 
-        targetOrigin = '*';
+        // Prefer a concrete parent origin when embedded; fall back safely.
+        var parentOrigin = null;
+        try {
+          if (document.referrer) parentOrigin = new URL(document.referrer).origin;
+        } catch (e) {}
+        targetOrigin = parentOrigin || '*';
+
         var DemoState = {
           running: false,
           started: false
@@ -569,6 +580,8 @@ Math.seedMT = init_genrand;
           }
         }
         window.addEventListener("message", function(e) {
+          if (parentOrigin && e.origin !== parentOrigin) return;
+
           if ("start_demo" == e.data) {
             DemoState.running = true;
             if (DemoState.started) {
@@ -587,16 +600,16 @@ Math.seedMT = init_genrand;
         var query = URL.parse(document.location.toString()).query;
         loadPrefix = query.theme ? query.theme+'/' : 'field/';
 
-        var fox_right = load('run_frames.png');
-        var fox_boost = load('boost_frames.png');
-        var shadow = load('shadow.png');
-        var bg_sky = load('sky.png');
-        var bg_forest = load('background.png');
-        var bg_mountain = load('horizon.png');
-        var fg = load('path.png');
-        var fg_front = load('foreground.png');
-        var title = load('Runfield.png', '');
-        var instructions = load('instructions.png', '');
+        var fox_right = load('run_frames.avif');
+        var fox_boost = load('boost_frames.avif');
+        var shadow = load('shadow.avif');
+        var bg_sky = load('sky.avif');
+        var bg_forest = load('background.avif');
+        var bg_mountain = load('horizon.avif');
+        var fg = load('path.avif');
+        var fg_front = load('foreground.avif');
+        var title = load('Runfield.avif', '');
+        var instructions = load('instructions.avif', '');
 
 
 
@@ -821,7 +834,7 @@ Math.seedMT = init_genrand;
           var down = false;
 
           var validTarget = function(ev) {
-            return ev.target === window.musicToggle || ['A', 'INPUT', 'TEXTAREA', 'BUTTON'].includes(ev.target.tagName);
+            return ev.target === window.musicToggle || ev.target === window.editorToggle || ['A', 'INPUT', 'TEXTAREA', 'BUTTON'].includes(ev.target.tagName);
           };
 
           var endJump = function(ev) {
@@ -1178,7 +1191,7 @@ Math.seedMT = init_genrand;
           }
           draw();
 
-          musicToggle = document.getElementById('musicToggle');
+          var musicToggle = document.getElementById('musicToggle');
           musicToggle.onmousedown = function(ev) {
             ev.preventDefault();
             ev.stopPropagation();
@@ -1206,13 +1219,19 @@ Math.seedMT = init_genrand;
             musicOn = true;
             musicToggle.onclick();
           }
+
+          var editorToggle = document.getElementById('editorToggle');
+          editorToggle.onclick = function(ev) {
+            ev.preventDefault();
+            document.getElementById('editor').classList.toggle('show');
+          };
         }
 
         startLoad();
 
         // Register service worker for PWA offline support
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('./sw.js')
+          navigator.serviceWorker.register('./sw.js', { scope: './' })
             .then(registration => {
               console.log('ServiceWorker registered:', registration.scope);
             })
@@ -1220,26 +1239,37 @@ Math.seedMT = init_genrand;
               console.log('ServiceWorker registration failed:', err);
             });
         }
-
       };
     </script>
   </head>
 
   <body>
-    <img id="leaves_left" src="leaves_left.png">
-    <canvas id="c" width="1024" height="512">
+    <img id="leaves_left" width="156" height="582" src="leaves_left.avif" alt="">
+    <canvas id="c" width="1024" height="512" role="img">
       You're using a browser that doesn't support the canvas element.
       Here's <a href="//getfirefox.com">one that does</a>.
     </canvas>
-    <iframe id="tweeter"></iframe>
-    <img id="leaves_right" src="leaves_right.png">
-    <div id="musicToggle">The Music is On</div>
-    <div><a href="#" onclick="var s=document.getElementById('editor').style;s.display=s.display!='block'?'block':'none';return false;">Toggle Editor</a></div>
-    <div id="editor"><canvas id="editorCanvas" width="1024" height="64"></canvas><br>
-      <form onsubmit="location.replace('#level='+this.level.value.replace(/ /g,''));resetLevel(false);return false">
-        <input type="text" size="80" name="level" onkeyup="this.form.onsubmit();"
+    <iframe id="tweeter" title="Share score on Twitter"></iframe>
+    <img id="leaves_right" width="156" height="582" src="leaves_right.avif" alt="">
+    <div id="musicToggle" type="button">The Music is On</div>
+
+    <div id="editorToggle" type="button">Toggle Editor</div>
+
+    <div id="editor">
+      <canvas id="editorCanvas" width="1024" height="64" aria-label="Level preview"></canvas><br>
+
+      <form id="levelForm">
+        <input
+          id="levelInput"
+          type="text"
+          size="80"
+          name="level"
+          inputmode="text"
+          autocomplete="off"
+          spellcheck="false"
           placeholder="Type a list of <number><letter>-pairs. The number is platform width, the letter is the shape. E.g. 3d 8g 2Z 3k">
       </form>
+
       Themes:
       <a href="?theme=snow">Snow</a>,
       <a href="?theme=field">Field</a>,
@@ -1250,4 +1280,5 @@ Math.seedMT = init_genrand;
       Music: <a href="https://open.spotify.com/artist/2hBSz5rIDGj871DTlZR7nv">Mauri Heikkinen</a> (a.k.a. <a href="//fat-cat.co.uk/fatcat/release.php?id=161">Drowsy</a>)
     </div>
     <script>resizeBody();</script>
+  </body>
 </html>
