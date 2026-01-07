@@ -621,14 +621,21 @@
           var frame = 0;
           var down = false;
 
-          endJump = function(ev) {
+          var validTarget = function(ev) {
+            return ev.target === window.musicToggle || ['A', 'INPUT', 'TEXTAREA', 'BUTTON'].includes(ev.target.tagName);
+          };
+
+          var endJump = function(ev) {
             if (down) {
               jump = 0;
               down = false;
               ev.preventDefault();
             }
           };
-          startJump = function(ev) {
+          var startJump = function(ev) {
+            if (validTarget(ev)) {
+              return;
+            }
             if (!gameStarted) {
               gameOver = false;
               gameStarted = true;
@@ -642,21 +649,23 @@
             }
             ev.preventDefault();
           };
-          c.onmousemove = c.onclick = c.ondblclick = c.onmouseup = function(ev) {
-            ev.preventDefault();
+          window.onmousemove = window.onclick = window.ondblclick = window.onmouseup = function(ev) {
+            if (!validTarget(ev)) {
+              ev.preventDefault();
+            }
           };
-          c.onmousedown = startJump;
-          c.ontouchstart = startJump;
+          window.onmousedown = startJump;
+          window.ontouchstart = startJump;
           window.onmouseup = endJump;
           window.ontouchend = endJump;
           window.ontouchcancel = endJump;
           window.onkeydown = function(ev) {
-            if (ev.target.tagName != 'INPUT' && ev.which == 32) {
+            if (ev.target.tagName !== 'INPUT' && ev.which == 32) {
               startJump(ev);
             }
           };
           window.onkeyup = function(ev) {
-            if (ev.target.tagName != 'INPUT' && ev.which == 32) {
+            if (ev.target.tagName !== 'INPUT' && ev.which == 32) {
               endJump(ev);
             }
           };
