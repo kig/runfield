@@ -1,10 +1,10 @@
-const CACHE_NAME = 'runfield-v18';
+const CACHE_NAME = 'runfield-v19';
 const urlsToCache = [
   // Desktop version
   './index.html',
   './Runfield.avif',
   './instructions.avif',
-  './bg.jpg',
+  './bg.avif',
   './leaves_left_2x.avif',
   './leaves_right_2x.avif',
   './icons/icon-192.png',
@@ -36,15 +36,6 @@ const urlsToCache = [
   './musa.ogg',
   './snoicboom.ogg',
   './turbo3_2.ogg',
-  // Audio files (mp3)
-  './delaa.ogg.mp3',
-  './hyppy.ogg.mp3',
-  './hyppy2.ogg.mp3',
-  './hyppy3.ogg.mp3',
-  './lasku2.ogg.mp3',
-  './musa.ogg.mp3',
-  './snoicboom.ogg.mp3',
-  './turbo3_2.ogg.mp3',
 ];
 
 // Install event - cache resources
