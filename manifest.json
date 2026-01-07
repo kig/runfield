@@ -3,7 +3,7 @@
   "short_name": "Runfield",
   "description": "Run, run as fast as you can! An HTML5 running game.",
   "start_url": "./index.html",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#241a14",
   "theme_color": "#241a14",
   "orientation": "landscape",
