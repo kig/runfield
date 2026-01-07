@@ -21,6 +21,12 @@
         text-align: center;
         color:#987;
       }
+      * {
+        user-select: none;
+      }
+      input, textarea {
+        user-select: auto;
+      }
       body {
         margin-top: 40px;
         white-space: nowrap;
@@ -54,6 +60,7 @@
         margin-top: -32px;
         top: 32px;
         z-index: 2;
+        pointer-events: none;
       }
       #leaves_right {
         margin-left: -62px;
@@ -61,6 +68,7 @@
         margin-top: -32px;
         top: 32px;
         z-index: 2;
+        pointer-events: none;
       }
       a {
         color:#654;
