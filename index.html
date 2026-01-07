@@ -407,7 +407,7 @@ Math.seedMT = init_genrand;
       }
       window.addEventListener('resize', resizeBody);
       getImageFirstY = function(img) {
-        if (img.firstY == null) {
+        if (img.firstY === undefined) {
           try {
             var h = img.height;
             var w = img.width;
@@ -415,7 +415,7 @@ Math.seedMT = init_genrand;
             c.id = img.src;
             c.width = w;
             c.height = h;
-            var cx = c.getContext('2d')
+            var cx = c.getContext('2d', { willReadFrequently: true });
             cx.drawImage(img, 0,0);
             var id = cx.getImageData(0,0,w,h);
             top: for (var y=0; y<h; y++) {
@@ -1142,15 +1142,9 @@ Math.seedMT = init_genrand;
                 var rtw = ctx.measureText(againText).width;
                 ctx.fillText(againText, 512-rtw/2, 420);
               }
-              // force draw completion
-              try {
-                ctx.getImageData(0,0,1,1);
-              } catch(e) {
-                // security exception, let's ignore it
-              }
               t = new Date().getTime();
               drawTime = t-st;
-              elapsed = t - lastFrameTime;
+              elapsed = Math.min(16, t - lastFrameTime);
               if (speed < 1)
                 speed += elapsed/30000;
               else if (speed < 1.25)
