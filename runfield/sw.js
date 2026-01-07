@@ -1,65 +1,52 @@
 const CACHE_NAME = 'runfield-v1';
 const urlsToCache = [
   // Desktop version
-  '/runfield/index.html',
-  '/runfield/mt.js',
-  '/runfield/audio.js',
-  '/runfield/Runfield.png',
-  '/runfield/instructions.png',
-  '/runfield/bg.jpg',
-  '/runfield/leaves_left.png',
-  '/runfield/leaves_right.png',
-  '/runfield/icons/icon-192.png',
-  '/runfield/icons/icon-512.png',
+  './index.html',
+  './mt.js',
+  './audio.js',
+  './Runfield.png',
+  './instructions.png',
+  './bg.jpg',
+  './leaves_left.png',
+  './leaves_right.png',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
   // Field theme
-  '/runfield/field/run_frames.png',
-  '/runfield/field/boost_frames.png',
-  '/runfield/field/shadow.png',
-  '/runfield/field/sky.png',
-  '/runfield/field/background.png',
-  '/runfield/field/horizon.png',
-  '/runfield/field/path.png',
-  '/runfield/field/foreground.png',
+  './field/run_frames.png',
+  './field/boost_frames.png',
+  './field/shadow.png',
+  './field/sky.png',
+  './field/background.png',
+  './field/horizon.png',
+  './field/path.png',
+  './field/foreground.png',
   // Snow theme
-  '/runfield/snow/run_frames.png',
-  '/runfield/snow/boost_frames.png',
-  '/runfield/snow/shadow.png',
-  '/runfield/snow/sky.png',
-  '/runfield/snow/background.png',
-  '/runfield/snow/horizon.png',
-  '/runfield/snow/path.png',
-  '/runfield/snow/foreground.png',
+  './snow/run_frames.png',
+  './snow/boost_frames.png',
+  './snow/shadow.png',
+  './snow/sky.png',
+  './snow/background.png',
+  './snow/horizon.png',
+  './snow/path.png',
+  './snow/foreground.png',
   // Audio files (ogg)
-  '/runfield/delaa.ogg',
-  '/runfield/hyppy.ogg',
-  '/runfield/hyppy2.ogg',
-  '/runfield/hyppy3.ogg',
-  '/runfield/lasku2.ogg',
-  '/runfield/musa.ogg',
-  '/runfield/snoicboom.ogg',
-  '/runfield/turbo3_2.ogg',
+  './delaa.ogg',
+  './hyppy.ogg',
+  './hyppy2.ogg',
+  './hyppy3.ogg',
+  './lasku2.ogg',
+  './musa.ogg',
+  './snoicboom.ogg',
+  './turbo3_2.ogg',
   // Audio files (mp3)
-  '/runfield/delaa.ogg.mp3',
-  '/runfield/hyppy.ogg.mp3',
-  '/runfield/hyppy2.ogg.mp3',
-  '/runfield/hyppy3.ogg.mp3',
-  '/runfield/lasku2.ogg.mp3',
-  '/runfield/musa.ogg.mp3',
-  '/runfield/snoicboom.ogg.mp3',
-  '/runfield/turbo3_2.ogg.mp3',
-  // Mobile version
-  '/runfield-mobile/index.html',
-  '/runfield-mobile/mt.js',
-  '/runfield-mobile/audio.js',
-  '/runfield-mobile/Runfield.png',
-  '/runfield-mobile/instructions.png',
-  '/runfield-mobile/bg_forest_field.png',
-  '/runfield-mobile/boost_frames.png',
-  '/runfield-mobile/fg_field.png',
-  '/runfield-mobile/fg_field_front.png',
-  '/runfield-mobile/run_frames.png',
-  '/runfield-mobile/shadow.png',
-  '/runfield-mobile/sky.png'
+  './delaa.ogg.mp3',
+  './hyppy.ogg.mp3',
+  './hyppy2.ogg.mp3',
+  './hyppy3.ogg.mp3',
+  './lasku2.ogg.mp3',
+  './musa.ogg.mp3',
+  './snoicboom.ogg.mp3',
+  './turbo3_2.ogg.mp3',
 ];
 
 // Install event - cache resources
@@ -70,7 +57,7 @@ self.addEventListener('install', (event) => {
         console.log('Opened cache');
         // Cache resources one by one to avoid failing if one resource is missing
         return Promise.allSettled(
-          urlsToCache.map(url => 
+          urlsToCache.map(url =>
             cache.add(url).catch(err => {
               console.warn(`Failed to cache ${url}:`, err);
               return Promise.resolve();
@@ -134,7 +121,7 @@ self.addEventListener('fetch', (event) => {
           // Provide context-specific offline fallbacks
           if (event.request.destination === 'document') {
             // For HTML requests, try to return cached index page
-            return caches.match('/runfield/index.html').then(cachedResponse => {
+            return caches.match('./index.html').then(cachedResponse => {
               return cachedResponse || new Response('Offline - Please visit while online first', {
                 status: 503,
                 statusText: 'Service Unavailable',
