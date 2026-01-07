@@ -28,5 +28,29 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
+  ],
+
+  "screenshots": [
+    {
+     "src": "./screenshots/desktop_1.jpg",
+      "sizes": "1280x634",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Title Screen"
+    },
+    {
+     "src": "./screenshots/desktop_2.jpg",
+      "sizes": "1280x634",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Gameplay"
+    },
+    {
+     "src": "./screenshots/mobile_1.jpg",
+      "sizes": "661x887",
+      "type": "image/jpeg",
+      "form_factor": "portrait",
+      "label": "Gameplay"
+    }
   ]
 }
