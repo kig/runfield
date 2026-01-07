@@ -1,4 +1,4 @@
-const CACHE_NAME = 'runfield-v20';
+const CACHE_NAME = 'runfield-v21';
 const urlsToCache = [
   // Desktop version
   './index.html',
@@ -7,8 +7,8 @@ const urlsToCache = [
   './bg.avif',
   './leaves_left_2x.avif',
   './leaves_right_2x.avif',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
+  './icons/icon-192-2.png',
+  './icons/icon-512-2.png',
   // Field theme
   './field/run_frames.avif',
   './field/boost_frames.avif',
