@@ -1167,7 +1167,7 @@ Math.seedMT = init_genrand;
               if (music.volume < 0.01) music.volume = 0;
               if (!musicOn && music.volume == 0) music.pause();
             }
-            if (musicOn && interacted && (music.paused || music.currentTime == music.duration || music.currentTime == 0))
+            if (musicOn && interacted && focused && (music.paused || music.currentTime == music.duration || music.currentTime == 0))
               music.play();
             if (window.requestAnimationFrame) {
               window.requestAnimationFrame(draw);
@@ -1200,6 +1200,7 @@ Math.seedMT = init_genrand;
               music.play();
             } else {
               this.textContent = 'The Music is Off';
+              music.pause();
             }
             localStorage.musicOn = musicOn;
             ev.preventDefault();
@@ -1209,6 +1210,14 @@ Math.seedMT = init_genrand;
             musicOn = true;
             musicToggle.onclick();
           }
+          var focused = true;
+          window.addEventListener('focus', function() {
+            focused = true;
+          });
+          window.addEventListener('blur', function() {
+            focused = false;
+            music.pause();
+          });
 
           var editorToggle = document.getElementById('editorToggle');
           editorToggle.onclick = function(ev) {
