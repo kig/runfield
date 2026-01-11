@@ -700,6 +700,7 @@ Math.seedMT = init_genrand;
           var oldRecord = record;
           var wasBoosting = false;
           var wasBooming = false;
+          var focused = true;
 
           var fn = function(x, gap, straightGap) {
             x = x % po;
@@ -1210,7 +1211,6 @@ Math.seedMT = init_genrand;
             musicOn = true;
             musicToggle.onclick();
           }
-          var focused = true;
           window.addEventListener('focus', function() {
             focused = true;
           });
